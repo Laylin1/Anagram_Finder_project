@@ -5,3 +5,5 @@ race
 care
 acre
 bee
+fool
+wow

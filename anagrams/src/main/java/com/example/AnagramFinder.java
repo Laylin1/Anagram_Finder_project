@@ -15,7 +15,7 @@ import com.sun.tools.javac.Main;
 public class AnagramFinder {
 
     //  Read/Write/Change file. (User's file)
-    public static File wordsAFile = new File("anagrams/src/data/example.txt");
+    public static File wordsAFile = new File("data/example.txt");
 
     // Ready file for testts. Only Read.
     public static InputStream input = Main.class.getClassLoader().getResourceAsStream("example.txt");
@@ -24,6 +24,11 @@ public class AnagramFinder {
         
         //Change readerType field on "file" for upload other file 
         String readerType = "resource";
+
+        // Command Prompt argument, for start without changing code
+        if (args.length > 0){
+            readerType = args[0].toLowerCase();
+        }
 
         BufferedReader reader = getRader(readerType);
 

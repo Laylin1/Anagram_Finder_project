@@ -8,7 +8,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +17,7 @@ import com.sun.tools.javac.Main;
 public class AnagramFinder {
 
     //  Read/Write/Change file. (User's file)
-    public static File wordsAFile = new File("data/exampleUser.txt");
+    public static File wordsAFile = new File("data/words.txt");
 
     // Ready file for testts. Only Read.
     public static InputStream input = Main.class.getClassLoader().getResourceAsStream("example.txt");
@@ -26,7 +25,7 @@ public class AnagramFinder {
     public static void main(String[] args) throws IOException {
         
         //Change readerType field on "file" for upload other file 
-        String readerType = "resource";
+        String readerType = "file";
 
         // Command Prompt argument, for start without changing code
         if (args.length > 0){
@@ -35,18 +34,18 @@ public class AnagramFinder {
 
         BufferedReader reader = getRader(readerType);
 
-
-        List<String> words = readWords(reader);
-
-        Map<String, List<String>> anagrams = findAnagrams(words);
+        Map<String, List<String>> anagrams = findAnagrams(reader);
         
         for(List<String> word : anagrams.values()){
             System.out.println(String.join(" ", word));
         }
 
+        System.out.println(countAngrms(anagrams));
+
     }
 
     // Method for read file throught Buffer
+    /* 
     public static List<String> readWords(BufferedReader reader) throws IOException{
         List<String> wordList = new ArrayList<>();
 
@@ -61,6 +60,8 @@ public class AnagramFinder {
 
         return wordList;
     }
+    */
+
 
     // Method for swap between user's file or ready file
     public static BufferedReader getRader(String source) throws IOException {
@@ -84,17 +85,33 @@ public class AnagramFinder {
         return new String(chars);
     }
 
-    //Method for grouping words with same keys(sorted letters)
-    public static Map<String, List<String>> findAnagrams(List<String> words){
+    //Method for grouping words with same keys(sorted)
+    public static Map<String, List<String>> findAnagrams(BufferedReader reader) throws IOException{
         Map<String, List<String>> angraMap = new LinkedHashMap<>();
+        String line;
 
-        for(String word : words){
-            String key = sortString(word);
+        while ((line = reader.readLine()) != null){
+            String[] words = line .trim().split("\\s+");
 
-            angraMap.computeIfAbsent(key, k -> new ArrayList<>()).add(word);
+            for(String word : words){
+                
+                //Filetr for clean words
+                if(word.matches("^[a-zA-Z]+$")){
+                    String cleanWord = word.toLowerCase();
+                    String key = sortString(cleanWord);
 
+                    angraMap.computeIfAbsent(key, k -> new ArrayList<>()).add(cleanWord);
+                    
+                }
+            }
         }
 
          return angraMap;
+    }
+
+
+    public static long countAngrms(Map<String, List<String>> anagrams){
+        long count = anagrams.values().stream().filter(group -> group.size() > 1).count();
+        return count;
     }
 }

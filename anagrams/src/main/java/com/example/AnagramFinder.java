@@ -7,15 +7,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.sun.tools.javac.Main;
 
 public class AnagramFinder {
 
     //  Read/Write/Change file. (User's file)
-    public static File wordsAFile = new File("data/example.txt");
+    public static File wordsAFile = new File("data/exampleUser.txt");
 
     // Ready file for testts. Only Read.
     public static InputStream input = Main.class.getClassLoader().getResourceAsStream("example.txt");
@@ -32,10 +35,13 @@ public class AnagramFinder {
 
         BufferedReader reader = getRader(readerType);
 
+
         List<String> words = readWords(reader);
 
-        for(String word : words){
-            System.out.println(word);
+        Map<String, List<String>> anagrams = findAnagrams(words);
+        
+        for(List<String> word : anagrams.values()){
+            System.out.println(String.join(" ", word));
         }
 
     }
@@ -69,5 +75,26 @@ public class AnagramFinder {
         }
 
         return reader;
+    }
+
+    // MEthod for sorting chars
+    public static String sortString(String word){
+        char[] chars = word.toLowerCase().toCharArray();
+        Arrays.sort(chars);
+        return new String(chars);
+    }
+
+    //Method for grouping words with same keys(sorted letters)
+    public static Map<String, List<String>> findAnagrams(List<String> words){
+        Map<String, List<String>> angraMap = new LinkedHashMap<>();
+
+        for(String word : words){
+            String key = sortString(word);
+
+            angraMap.computeIfAbsent(key, k -> new ArrayList<>()).add(word);
+
+        }
+
+         return angraMap;
     }
 }

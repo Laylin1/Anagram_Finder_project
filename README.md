@@ -18,10 +18,13 @@ The program is optimized for processing large datasets with efficient memory usa
     - [1. Clone the repository](#1-clone-the-repository)
     - [2. Compile:](#2-compile)
     - [3. Run:](#3-run)
-    - [4. Maven(Optional)](#4-mavenoptional)
   - [How to Build and Run with Maven](#how-to-build-and-run-with-maven)
-    - [1.Build the Project](#1build-the-project)
-    - [Run the Application](#run-the-application)
+    - [1. Build the Project](#1-build-the-project)
+    - [2. Run the Application](#2-run-the-application)
+  - [Run with Docker](#run-with-docker)
+    - [1. Build the docker image:](#1-build-the-docker-image)
+    - [2. Run the Application](#2-run-the-application-1)
+    - [3. Run using your own file:](#3-run-using-your-own-file)
   - [Project Structure](#project-structure)
   - [Example Output(from example.txt)](#example-outputfrom-exampletxt)
   - [Data Source](#data-source)
@@ -43,7 +46,7 @@ The program is optimized for processing large datasets with efficient memory usa
 ## Requirements
 
 - **Java Development Kit (JDK) 11+**
-- *(Optional)* **Apache Maven** - used for compiling the project (`mvn compile`), but not required for running
+- *(Optional)* **Apache Maven** - used for build the project (`mvn compile`), but not required for running
 > You can also compile the code manually using `javac` if Maven is not installed 
 
 ## How to run
@@ -82,27 +85,9 @@ java -cp target/classes com.example.AnagramFinder file
 
 - Just upload file in the directory `data/` and change path `data/your_file.txt`
 
-### 4. Maven(Optional)
-
-if you have Maven installed, you can also compile the project with:
-```bash
-mvn compile
-```
-
-Then run the program manually, just like above:
-```bash
-java -cp target/classes com.example.AnagramFinder resource
-```
-
-**or**
-
-```bash
-java -cp target/classes com.example.AnagramFinder file
-```
-
 ## How to Build and Run with Maven
 
-### 1.Build the Project 
+### 1. Build the Project 
 
 To compile and package the poject into a runnable `.jar`, run the folowing command:
 
@@ -110,7 +95,7 @@ To compile and package the poject into a runnable `.jar`, run the folowing comma
 mvn clean package
 ```
 
-### Run the Application
+### 2. Run the Application
 
 After building, you can run the program using:
 
@@ -127,14 +112,45 @@ java -jar target/anagrams-1.0-SNAPSHOT.jar file
 - Use `resource` to run the built-in example file (example.txt)
 - Use `file` to read from external file.  
 
+
+## Run with Docker
+
+To use Docker, you first need to build the `.jar` file using [Maven](#how-to-build-and-run-with-maven)
+
+### 1. Build the docker image:
+
+```bash
+docker build -t anagram-finder .
+```
+
+### 2. Run the Application
+
+```bash
+docker run --rm anagram-finder resource
+```
+
+**or**
+
+```bash
+docker run --rm anagram-finder file
+```
+
+### 3. Run using your own file:
+
+If you have your own file in the `data/` directory, mount it like this:
+```bash
+docker run --rm -v "$(pwd)/data:/app/data" anagram-finder file 
+```
+> This mounts your local `data/` folder into the container 
+
 ## Project Structure
 
 ```
 anagrams
-|
-├── data                                
-│   ├── exampleUser.txt                 
-│   └── words.txt                       
+├── data
+│   ├── exampleUser.txt
+│   └── words.txt
+├── Dockerfile
 ├── pom.xml
 ├── src
 │   ├── main
@@ -144,16 +160,7 @@ anagrams
 │       └── java
 ├── structure.txt
 └── target
-    ├── classes
-    │   ├── com
-    │   └── example.txt
-    ├── generated-sources
-    │   └── annotations
-    ├── maven-status
-    │   └── maven-compiler-plugin
-    └── test-classes
-
-16 directories, 5 files
+    └── anagrams-1.0-SNAPSHOT.jar
 ```
 
 ## Example Output(from example.txt)

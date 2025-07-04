@@ -40,11 +40,13 @@ public class AnagramFinder {
             System.out.println(String.join(" ", word));
         }
 
-        System.out.println(countAngrms(anagrams));
+
+        // Counter anagrams
+        // System.out.println(countAngrms(anagrams));
 
     }
 
-    // Method for read file throught Buffer
+    // Method for read file throught Buffer with saving in List
     /* 
     public static List<String> readWords(BufferedReader reader) throws IOException{
         List<String> wordList = new ArrayList<>();
@@ -85,7 +87,7 @@ public class AnagramFinder {
         return new String(chars);
     }
 
-    //Method for grouping words with same keys(sorted)
+    //Method for grouping words with same keys(sorted)/Reading file without save words
     public static Map<String, List<String>> findAnagrams(BufferedReader reader) throws IOException{
         Map<String, List<String>> angraMap = new LinkedHashMap<>();
         String line;
@@ -109,7 +111,7 @@ public class AnagramFinder {
          return angraMap;
     }
 
-
+    //Method for count anagrams for big files
     public static long countAngrms(Map<String, List<String>> anagrams){
         long count = anagrams.values().stream().filter(group -> group.size() > 1).count();
         return count;

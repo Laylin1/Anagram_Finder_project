@@ -8,3 +8,10 @@ target/
 
 *.log
 *.tmp
+
+.DS_Store
+Thumbs.db
+
+*.jar
+docker-compose.override.yml
+.env

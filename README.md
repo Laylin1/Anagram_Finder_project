@@ -19,6 +19,9 @@ The program is optimized for processing large datasets with efficient memory usa
     - [2. Compile:](#2-compile)
     - [3. Run:](#3-run)
     - [4. Maven(Optional)](#4-mavenoptional)
+  - [How to Build and Run with Maven](#how-to-build-and-run-with-maven)
+    - [1.Build the Project](#1build-the-project)
+    - [Run the Application](#run-the-application)
   - [Project Structure](#project-structure)
   - [Example Output(from example.txt)](#example-outputfrom-exampletxt)
   - [Data Source](#data-source)
@@ -96,6 +99,33 @@ java -cp target/classes com.example.AnagramFinder resource
 ```bash
 java -cp target/classes com.example.AnagramFinder file
 ```
+
+## How to Build and Run with Maven
+
+### 1.Build the Project 
+
+To compile and package the poject into a runnable `.jar`, run the folowing command:
+
+```bash
+mvn clean package
+```
+
+### Run the Application
+
+After building, you can run the program using:
+
+```bash
+java -jar target/anagrams-1.0-SNAPSHOT.jar resource
+```
+
+**or**
+
+```bash
+java -jar target/anagrams-1.0-SNAPSHOT.jar file
+```
+
+- Use `resource` to run the built-in example file (example.txt)
+- Use `file` to read from external file.  
 
 ## Project Structure
 

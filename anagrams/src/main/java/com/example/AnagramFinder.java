@@ -1,8 +1,10 @@
 package com.example;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -17,7 +19,7 @@ import com.sun.tools.javac.Main;
 public class AnagramFinder {
 
     //  Read/Write/Change file. (User's file)
-    public static File wordsAFile = new File("data/words.txt");
+    public static File wordsAFile = new File("data/words1m.txt");
 
     // Ready file for testts. Only Read.
     public static InputStream input = Main.class.getClassLoader().getResourceAsStream("example.txt");
@@ -27,6 +29,12 @@ public class AnagramFinder {
         //Change readerType field on "file" for upload other file 
         String readerType = "file";
 
+        //JVM access 
+        Runtime runtime = Runtime.getRuntime();
+
+        //gc for more clearly log memory usage
+        runtime.gc();
+
         // Command Prompt argument, for start without changing code
         if (args.length > 0){
             readerType = args[0].toLowerCase();
@@ -34,7 +42,11 @@ public class AnagramFinder {
 
         BufferedReader reader = getRader(readerType);
 
+        long before = runtime.totalMemory() - runtime.freeMemory();
         Map<String, List<String>> anagrams = findAnagrams(reader);
+        long after = runtime.totalMemory() - runtime.freeMemory();
+
+        logMemory("findAnagrams", after - before);
         
         for(List<String> word : anagrams.values()){
             System.out.println(String.join(" ", word));
@@ -42,7 +54,7 @@ public class AnagramFinder {
 
 
         // Counter anagrams
-        // System.out.println(countAngrms(anagrams));
+         System.out.println(countAngrms(anagrams));
 
     }
 
@@ -115,5 +127,23 @@ public class AnagramFinder {
     public static long countAngrms(Map<String, List<String>> anagrams){
         long count = anagrams.values().stream().filter(group -> group.size() > 1).count();
         return count;
+    }
+
+    //Method for log memory usage
+    public static void logMemory(String label, long memoryUsedB) throws IOException{
+        long usedMb = memoryUsedB /1024 /1024;
+        String logLine = "{" + label +  "} Memory used: " + usedMb + "Mb\n";
+
+        File logDir = new File("logs");
+
+        if(!logDir.exists()){
+            logDir.mkdirs();
+        }
+
+        BufferedWriter writer = new BufferedWriter(new FileWriter("logs/memory.log", true));
+
+        writer.write(logLine);
+
+        writer.close();
     }
 }

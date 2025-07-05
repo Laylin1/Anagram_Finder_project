@@ -22,7 +22,7 @@
             <configuration>
                 <archive>
                 <manifest>
-                    <mainClass>com.example.AnagramFinder</mainClass>
+                    <mainClass>com.example.AnagramFinder</mainClass>    
                 </manifest>
                 </archive>
             </configuration>

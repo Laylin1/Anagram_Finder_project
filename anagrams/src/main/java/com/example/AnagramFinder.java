@@ -54,7 +54,7 @@ public class AnagramFinder {
 
 
         // Counter anagrams
-         System.out.println(countAngrms(anagrams));
+        // System.out.println(countAngrms(anagrams));
 
     }
 

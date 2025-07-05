@@ -47,6 +47,7 @@ The program is optimized for processing large datasets with efficient memory usa
 
 - **Java Development Kit (JDK) 11+**
 - *(Optional)* **Apache Maven** - used for build the project (`mvn compile`), but not required for running
+- *(Optional)* **Docker** - launch on any environment
 > You can also compile the code manually using `javac` if Maven is not installed 
 
 ## How to run

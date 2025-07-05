@@ -16,5 +16,7 @@ Thumbs.db
 docker-compose.override.yml
 .env
 
+
+data/words10m.txt
 logs/
 *.log
